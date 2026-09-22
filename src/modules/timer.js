@@ -4,36 +4,48 @@ const timerModule = (deadline) => {
   const timerSeconds = document.getElementById('timer-seconds');
 
   const formatTime = (time) => {
-    return time < 10 ? '0' + time : time;
-    // Альтернативный современный вариант: return String(time).padStart(2, '0');
+    return String(time).padStart(2, '0');
   };
 
-  const getTimeRemainig = () => {
+  const getTimeRemaining = () => {
     const dateStop = new Date(deadline).getTime();
     const dateNow = new Date().getTime();
 
-    let timeRemainig = (dateStop - dateNow) / 1000;
+    let timeRemaining = (dateStop - dateNow) / 1000;
 
-    let seconds = Math.floor(timeRemainig % 60);
-    let minutes = Math.floor((timeRemainig / 60) % 60);
-    let hours = Math.floor(timeRemainig / 3600);
-    // let hours = Math.floor((timeRemainig / 3600) % 24);
-    // let days = Math.floor(timeRemainig / 3600 / 24);
+    let seconds = Math.floor(timeRemaining % 60);
+    let minutes = Math.floor((timeRemaining / 60) % 60);
+    let hours = Math.floor((timeRemaining / 3600) % 24);
+    let days = Math.floor(timeRemaining / 3600 / 24);
 
-    return { timeRemainig, hours, minutes, seconds };
+    return { timeRemaining, hours, minutes, seconds, days };
   };
 
   const updateClock = () => {
-    let getTime = getTimeRemainig();
-    timerHours.textContent = formatTime(getTime.hours);
-    timerMinutes.textContent = formatTime(getTime.minutes);
-    timerSeconds.textContent = formatTime(getTime.seconds);
+    let getTime = getTimeRemaining();
+
+    let daysSpan = document.getElementById('timer-days');
+    if (getTime.days > 0) {
+      if (!daysSpan) {
+        daysSpan = document.createElement('span');
+        daysSpan.id = 'timer-days';
+        timerHours.parentNode.insertBefore(daysSpan, timerHours);
+        daysSpan.style.marginRight = '50px';
+      }
+      daysSpan.textContent = `Дней: ${getTime.days}`;
+    } else if (daysSpan) {
+      daysSpan.remove();
+    }
 
     if (getTime.timeRemaining <= 0) {
       clearInterval(timerId);
       timerHours.textContent = '00';
       timerMinutes.textContent = '00';
       timerSeconds.textContent = '00';
+    } else {
+      timerHours.textContent = formatTime(getTime.hours);
+      timerMinutes.textContent = formatTime(getTime.minutes);
+      timerSeconds.textContent = formatTime(getTime.seconds);
     }
   };
 
