@@ -1,18 +1,28 @@
+// В модуле menu много обработчиков событий на открытие/закрытие меню. Используя делегирование событий сделать обработчики для:
+//  Крестика закрытия меню и пунктов меню.
+//  Кнопки меню (бургер)
+//  Пунктов меню
+// У вас должно быть максимум 2 обработчика события в модуле menu
+// Написать 1 обработчик для всех событий внутри функции toggleMenu()
+// Реализовать следующий функционал: если клик произошел мимо меню, оно закрывается
 const menuModule = () => {
-  const menuBtn = document.querySelector('.menu');
   const menu = document.querySelector('menu');
-  const closeBtn = menu.querySelector('.close-btn');
-  const menuItems = menu.querySelectorAll('ul>li>a');
 
-  const handleMenu = () => {
-    menu.classList.toggle('active-menu');
-  }
+  const toggleMenu = (e) => {
+    if (e.target.closest('.menu')) { // Кнопка меню (бургер)
+      menu.classList.toggle('active-menu');
+      return;
+    };
 
-  menuBtn.addEventListener('click', handleMenu);
+    if (e.target.closest('.close-btn') ||
+      e.target.closest('menu') && e.target.matches('li>a') || // крестик закрытия или пункт-ссылка меню
+      !e.target.closest('menu')) { // мимо меню
+      menu.classList.remove('active-menu');
+      return;
+    };
+  };
 
-  closeBtn.addEventListener('click', handleMenu);
-
-  menuItems.forEach(item => item.addEventListener('click', handleMenu));
+  document.addEventListener('click', toggleMenu);
 
 };
 
