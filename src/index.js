@@ -4,6 +4,7 @@ import modal from './modules/modal';
 import validation from './modules/validation';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
+import calc from './modules/calc';
 
 timer('22 october 2026');
 menu();
@@ -23,3 +24,5 @@ slider({
   // nextBtnId: 'arrow-right', // default: 'arrow-right'
   timeInterval: 1000,
 });
+
+calc(200);
