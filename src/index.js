@@ -5,9 +5,21 @@ import validation from './modules/validation';
 import tabs from './modules/tabs';
 import slider from './modules/slider';
 
-timer('25 september 2026');
+timer('22 october 2026');
 menu();
 modal();
 validation();
 tabs();
-slider();
+
+slider({
+  containerId: 'all-progects', // default: 'slider'
+  slideClass: 'portfolio-item', // default: 'slide'
+  activeSlideClass: 'portfolio-item-active', // default: 'slide-active'
+  dotsContainer: 'portfolio-dots', // default: 'dots'
+  //dotClass: 'dot', // default: 'dot'
+  //activeDotClass: 'dot-active', // default: 'dot-active'
+  btnClass: 'portfolio-btn', // default: 'arrows'
+  // prevBtnId: 'arrow-left', // default: 'arrow-left'
+  // nextBtnId: 'arrow-right', // default: 'arrow-right'
+  timeInterval: 1000,
+});
